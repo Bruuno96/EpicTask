@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css" th:href="@{/fonts/icomoon/style.css}">
+
+    <link rel="stylesheet" href="css/owl.carousel.min.css" th:href="@{/css/owl.carousel.min.css}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
+
+    <title>Cadastro</title>
+</head>
+
+<body>
+
+
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 order-md-2">
+                    <img th:src="@{/images/undraw_file_sync_ot38.svg}" alt="Image" class="img-fluid">
+                </div>
+                <div class="col-md-6 contents">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="mb-4">
+                                <h3><strong>EPIC STASK</strong></h3>
+                                <p class="mb-4">Cadastre-se na EPICTASK para poder colaborar com os projetos do seu time :).</p>
+                            </div>
+                            <form action="/cadastro" method="POST" th:object="${user}">
+                            
+                                <div class="form-group first">
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" th:field="*{username}">
+                                    <span th:errors="*{username}"></span>
+                                </div>
+                                <div class="form-group last mb-4">
+                                    <input type="email" name="email" class="form-control" id="email" placeholder="Email" th:field="*{email}">
+                                    <span th:errors="*{email}"></span>
+                                </div>
+
+                                <div class="form-group last mb-4">
+                                    <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" placeholder="Data nascimento" th:field="*{dataNascimento}">
+									<span th:errors="*{dataNascimento}"></span>
+                                </div>
+
+                                <div class="form-group last mb-4">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" th:field="*{password}">  
+                                    <span th:errors="*{password}"></span>                 							
+                                </div>
+
+                                <div class="d-flex mb-5 align-items-center">
+                                    <span class="ml-auto"><a href="/" class="forgot-pass">Ja é cadastrado ? Faça o login</a></span>
+                                </div>
+
+                                <input type="submit" value="Cadastrar-me" class="btn text-white btn-block btn-primary">
+                                
+                                
+
+                            </form>
+                            
+                            <a href="/listaUsuarios">Lista dos Usuários</a>
+                            
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
