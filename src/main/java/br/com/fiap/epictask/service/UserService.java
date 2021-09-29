@@ -20,13 +20,12 @@ public class UserService {
 		public void salvarUsuario(User user) throws Exception{
 			
 			try {
-				if (repo.findByEmail(user.getEmail()) != null) {
-					throw new EmailExistExeption("Ja existe um email cadastrada"+ user.getEmail());
+				if (repo.findByEmail(user.getEmail()) == null) {
+					throw new EmailExistExeption("Ja existe um email cadastrado "+ user.getEmail());
 				}
 				
-				
-				user.setPassword(Util.md5("^{}45[2axv"+user.getPassword()+"^{}45[2axv"));
-			} catch (NoSuchAlgorithmException e) {
+				user.setPassword(AuthenticationService.getPasswordEncoder().encode(user.getPassword()));
+			} catch (Exception e) {
 				throw new CriptoExistException("Erro na criptografia da senha");
 			}
 			

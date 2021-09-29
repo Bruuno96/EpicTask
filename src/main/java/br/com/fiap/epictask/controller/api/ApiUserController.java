@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.fiap.epictask.model.*;
 import br.com.fiap.epictask.repository.UserRepository;
+import br.com.fiap.epictask.service.UserService;
 
 @RestController
 @RequestMapping("/api/user")
@@ -28,12 +29,15 @@ public class ApiUserController {
 	@Autowired
 	private UserRepository repo;
 	
+	@Autowired
+	private UserService userService;
+	
 		
 	@PostMapping
 	public ResponseEntity<User> create(
-			@RequestBody @Valid User user,  UriComponentsBuilder ub){
+			@RequestBody @Valid User user,  UriComponentsBuilder ub) throws Exception{
 		
-		repo.save(user);
+		userService.salvarUsuario(user);
 		URI uri = ub.path("api/user/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(user);
 	}

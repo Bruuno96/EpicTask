@@ -20,7 +20,7 @@
     <title>Cadastro</title>
 </head>
 
-<body>
+<body style="background-color: white">
 
 
 
@@ -37,12 +37,20 @@
                                 <h3><strong>EPIC STASK</strong></h3>
                                 <p class="mb-4">Cadastre-se na EPICTASK para poder colaborar com os projetos do seu time :).</p>
                             </div>
-                            <form action="/cadastro" method="POST" th:object="${user}">
+                            
+                            <span th:if="${sucesso != null}" th:text="${sucesso}"></span>
+                            <form th:action="@{/cadastro}" method="POST" th:object="${user}">
                             
                                 <div class="form-group first">
                                     <input type="text" class="form-control" id="username" name="username" placeholder="Username" th:field="*{username}">
                                     <span th:errors="*{username}"></span>
                                 </div>
+                                
+                                <div class="form-group first">
+                                    <input type="text" class="form-control" id="githubuser" name="githubuser" placeholder="GitHub username" th:field="*{githubuser}">
+                                    <span th:errors="*{username}"></span>
+                                </div>
+                                
                                 <div class="form-group last mb-4">
                                     <input type="email" name="email" class="form-control" id="email" placeholder="Email" th:field="*{email}">
                                     <span th:errors="*{email}"></span>
@@ -59,7 +67,7 @@
                                 </div>
 
                                 <div class="d-flex mb-5 align-items-center">
-                                    <span class="ml-auto"><a href="/" class="forgot-pass">Ja é cadastrado ? Faça o login</a></span>
+                                    <span class="ml-auto"><a href="/login" class="forgot-pass">Ja é cadastrado ? Faça o login</a></span>
                                 </div>
 
                                 <input type="submit" value="Cadastrar-me" class="btn text-white btn-block btn-primary">

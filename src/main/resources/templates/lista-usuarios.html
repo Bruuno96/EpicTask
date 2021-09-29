@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>About Us - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" th:href=@{/assets/bootstrap/css/bootstrap.min.css}>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i" th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i}">
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css" th:href="@{/assets/fonts/simple-line-icons.min.css}">
+    <link rel="stylesheet" href="assets/css/CDRapidoRegistroRecursos.css" th:href="@{/assets/css/CDRapidoRegistroRecursos.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css}">
+    <link rel="stylesheet" href="assets/css/Pretty-Product-List.css" th:href="@{/assets/css/Pretty-Product-List.css}">
+    <link rel="stylesheet" href="assets/css/smoothproducts.css" th:href="@{/assets/css/smoothproducts.css}">
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+        <div class="container"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="text-center" style="height: auto;">
+                <div class="text-center separador-menor"></div><img class="img-fluid d-inline" src="assets/img/EPIC%20TASK%20(250%20x%20250%20px).png">
+                <div class="text-center separador-menor"></div>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/lista-tasks">Tasks</a></li>
+					<li class="nav-item"><a class="nav-link" href="/lista-tasks/new">Cadastrar task</a></li>
+					<li class="nav-item"><a class="nav-link" href="/lista-usuarios">Lista de usuários</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="page">
+        <section class="clean-block about-us" style="background-color: rgba(33,37,41,0.04)"> 
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Sobre nós</h2>
+                    <p>- Colaboradores do EPIC TASK -&nbsp;</p>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-sm-6 col-lg-4" th:each="user : ${users}" style="padding-top: 40px">
+                    <div class="col-sm-6 col-lg-12"  >
+                        <div class="card text-center clean-card">
+                        <img class="card-img-top w-100 d-block" th:src="${'https://avatars.githubusercontent.com/'+user.githubuser}">
+                            <div class="card-body info">
+                                <h4 class="card-title" th:text="${user.username}"></h4>
+                                <p class="card-text" th:text="${user.email}"></p>
+                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a></div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="page-footer dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h5>Get started</h5>
+                    <ul>
+                        <li><a href="#">Cadastrar task</a></li>
+                        <li><a href="#">Register</a></li>
+                        <li><a href="#">Lista de usuários</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>About us</h5>
+                    <ul>
+                        <li><a href="#">Sobre EPIC TASK&nbsp;</a></li>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Help desk</a></li>
+                        <li><a href="#">Forums</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>© 2021 EPIC TASK</p>
+        </div>
+    </footer>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script src="assets/js/smoothproducts.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

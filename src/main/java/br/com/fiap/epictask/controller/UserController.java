@@ -1,6 +1,6 @@
 package br.com.fiap.epictask.controller;
 
-import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchAlgorithmException; 
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,16 +8,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import br.com.fiap.epictask.model.Task;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.fiap.epictask.model.User;
 import br.com.fiap.epictask.repository.UserRepository;
 import br.com.fiap.epictask.service.UserService;
@@ -36,15 +33,16 @@ public class UserController {
 	public String registerPage(User user) {
 		return "register";
 	}
+	
 	@RequestMapping("/login")
 	public String loginPage() {
 		return "login";
 	}
 	
 	
-	@GetMapping("/listaUsuarios")
+	@GetMapping("/lista-usuarios")
 	public ModelAndView index() {
-		ModelAndView modelAndView = new ModelAndView("listaUsuarios");
+		ModelAndView modelAndView = new ModelAndView("lista-usuarios");
 		List<User> users = repository.findAll(); 
 		modelAndView.addObject("users", users);
 		return modelAndView;
@@ -52,32 +50,33 @@ public class UserController {
 	
 	
 	@PostMapping("/cadastro")
-	public String save(@Valid @ModelAttribute User user, BindingResult result) throws Exception {
+	public String save(@Valid @ModelAttribute User user, BindingResult result, RedirectAttributes ra) throws Exception {
 		if(result.hasErrors()) return "register";
 		
 		// service cadastra o usuario com senha criptografa com MD5 pacote UTIL
 		serviceUser.salvarUsuario(user);
-		return "redirect:/listaUsuarios";
+		ra.addFlashAttribute("sucesso", "Usuario cadastro com sucesso");
+		return "redirect:/login";
 	}
 	
-	@PostMapping("/login")
-	public String login(@Valid User user, BindingResult result, HttpSession session ) throws NoSuchAlgorithmException{
-		ModelAndView model = new ModelAndView();
-		model.addObject("user", new User());
-		if(result.hasErrors()) {
-			model.setViewName("/login");
-			return "redirect:/login";
-		} 
-		
-		User userLogin = serviceUser.login(user.getEmail(), Util.md5(user.getPassword()));
-		if(userLogin == null ) {
-			model.addObject("msg","Usuario nao cadastrado");
-			
-		}else {
-			session.setAttribute("user", user);
-			return "/task";
-		}
-		return null;
-	}	
+//	@PostMapping("/login")
+//	public String login(@Valid User user, BindingResult result, HttpSession session ) throws NoSuchAlgorithmException{
+//		ModelAndView model = new ModelAndView();
+//		model.addObject("user", new User());
+//		if(result.hasErrors()) {
+//			model.setViewName("/login");
+//			return "redirect:/login";
+//		} 
+//		
+//		User userLogin = serviceUser.login(user.getEmail(), Util.md5(user.getPassword()));
+//		if(userLogin == null ) {
+//			model.addObject("msg","Usuario nao cadastrado");
+//			
+//		}else {
+//			session.setAttribute("user", user);
+//			return "/task";
+//		}
+//		return null;
+//	}	
 
 }

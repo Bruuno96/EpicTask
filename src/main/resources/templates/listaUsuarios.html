@@ -8,8 +8,9 @@
 </head>
 <body>
  
-<ul class="tilesWrap" th:each="user : ${users}">
-	<li>
+ 
+<div class="tilesWrap" th:each="user : ${users}">
+
 		<h2 th:text="${user.id}">01</h2>
 		<h4>Nome: </h4><p th:text="${user.username}"></p>
 		<h4>Email: </h4><p th:text="${user.email}"></p>
@@ -20,8 +21,7 @@
 		
 		
 		
-	</li>
-</ul>
+</div>
 	
 	
 	
