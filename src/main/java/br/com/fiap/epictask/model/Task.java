@@ -1,5 +1,6 @@
 package br.com.fiap.epictask.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity; 
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,8 +36,7 @@ public class Task {
 	@Max(value=500, message = "A pontuação máxima é 500")
 	private int points;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_user")
-	public User user;
+	@ManyToOne
+	private User user;
 //	
 }

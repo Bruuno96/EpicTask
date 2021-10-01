@@ -1,6 +1,6 @@
 package br.com.fiap.epictask.controller;
 
-import java.util.List;
+import java.util.List; 
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.fiap.epictask.exception.TaskNotFoundException;
+import br.com.fiap.epictask.exceptions.NotAllowedException;
 import br.com.fiap.epictask.model.Task;
 import br.com.fiap.epictask.model.User;
 import br.com.fiap.epictask.repository.TaskRepository;
 
 @Controller
 public class TaskController {
+	
+	User user;
 	
 	@Autowired
 	private TaskRepository repository;
@@ -31,6 +35,7 @@ public class TaskController {
 		List<Task> tasks = repository.findAll();
 		modelAndView.addObject("tasks", tasks);
 		return modelAndView;
+		
 	}
 	
 	@RequestMapping("/lista-tasks/new")
@@ -39,45 +44,49 @@ public class TaskController {
 	}
 	
 	@PostMapping("/lista-tasks")
-	public String save(@Valid Task task, BindingResult result) {
-		if(result.hasErrors()) return "cadastrar-task";
-		repository.save(task);
-		return "lista-tasks";
-	}
-	
-	@GetMapping("release/{id}")
-	public Task hold(@PathVariable Long id, Authentication auth) {
-		Optional<Task> task = repository.findById(id);
-		
-		if (task.isEmpty()) {
-			System.out.println("tarefa nao encontrada");
-		}
-		
-		Task tasknew = task.get();
+	public String save(@Valid Task task, BindingResult result, Authentication auth) {
+		if(result.hasErrors()) return "redirct:/task-form";
 		User user = (User) auth.getPrincipal();
-		tasknew.setUser(user);
-		return repository.save(tasknew);
-		
+		task.setUser(user);
+		repository.save(task);
+		return "redirect:/lista-tasks";
 	}
 	
-//	@GetMapping("release/{id}")
-//	public String release(@PathVariable Long id, Authentication auth) {
-//		Optional<Task> task = repository.findById(id);
-//		
-//		if (task.isEmpty()) {
-//			System.out.println("tarefa nao encontrada");
-//		}
-//		
-//		Task tasknew = task.get();
-//		
-//		if(tasknew.getUser().equals(auth.getPrincipal())) {
-//			throw new Exception()
-//		}
-//		User user = (User) auth.getPrincipal();
-//		tasknew.setUser(user);
-//		return;
-//		
-//	}
+	@GetMapping("/hold/{id}")
+	public String hold(@PathVariable Long id, Authentication auth) throws NotAllowedException, TaskNotFoundException {
+		Optional<Task> optional = repository.findById(id);
+		
+		if(optional.isEmpty())
+			throw new TaskNotFoundException("Tarefa não encontrada");
+		
+		Task task = optional.get();
+		if(task.getUser() != null)
+			throw new NotAllowedException("Tarefa já está atribuída");
+
+		User user = (User) auth.getPrincipal();
+		task.setUser(user);
+		repository.save(task);
+			
+		return "redirect:/task";
+	}
+	
+	@GetMapping("/release/{id}")
+	public String release(@PathVariable Long id, Authentication auth) throws TaskNotFoundException, NotAllowedException {
+		Optional<Task> optional = repository.findById(id);
+		
+		if(optional.isEmpty())
+			throw new TaskNotFoundException("Tarefa não encontrada");
+		
+		Task task = optional.get();
+
+		if(!task.getUser().equals(auth.getPrincipal()))
+			throw new NotAllowedException("Tarefa está atribuída para outra pessoa");
+		
+		task.setUser(null);
+		repository.save(task);
+			
+		return "redirect:/task";
+	}
 	
 	
 }

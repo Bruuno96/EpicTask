@@ -48,6 +48,14 @@
 					<li class="nav-item"><a class="nav-link"
 						href="/lista-usuarios">Lista de usuários</a></li>
 				</ul>
+				<div style="align-items: flex-end;">
+					<span th:text="${#authentication.getPrincipal().getName()}"></span>
+					<img style="width: 32px; height: 32px; border-radius: 16px;" alt=""
+						th:src="${#authentication.getPrincipal().getAvatarUrl()}">
+					<!-- span sec:authentication="name"></span -->
+					<a href="/logout" title="sair"><img alt="" th:src="@{/images/logout-small.png}">
+					</a>
+				</div>
 			</div>
 		</div>
 	</nav>
@@ -61,7 +69,7 @@
 	<div class="register-photo" style="background-color: rgba(33,37,41,0.04)">
 		<div class="d-lg-flex justify-content-lg-center form-container"
 			style="filter: brightness(100%); transform: skew(0deg); border-color: rgb(255, 255, 255); width: 380px;">
-			<form th:action="@{/lista-tasks}"  method="POST" th:object="${task}"
+			<form th:action="@{/lista-tasks}" method="POST" th:object="${task}"
 				style="width: auto; height: auto; background: rgb(255, 255, 255);" 
 			>
 				<h2 class="text-center">
@@ -87,8 +95,10 @@
 					<div
 						class="d-lg-flex justify-content-end justify-content-lg-end align-items-lg-center"
 						style="width: 244px;">
-						<button class="btn btn-primary" type="submit"
+						<a href="/lista-tasks">
+						<button class="btn btn-primary" type="submit" 
 							style="background-color: rgb(85, 71, 244); width: auto; margin-right: 0px; margin-left: 50px;">Salvar</button>
+						</a>
 					</div>
 				</div>
 			</form>

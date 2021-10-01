@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://thymeleaf.org">
+<html  xmlns:th="http://thymeleaf.org"
+	   xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5"
+	>
 
 <head>
     <meta charset="utf-8">
@@ -24,9 +26,17 @@
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link active" href="/lista-tasks">Tasks</a></li>
-					<li class="nav-item"><a class="nav-link" href="/lista-tasks/new">Cadastrar task</a></li>
+					<li class="nav-item"><a class="nav-link" href="/lista-tasks/new" sec:authorize="hasRole('ADMIN')">Cadastrar task</a></li>
 					<li class="nav-item"><a class="nav-link" href="/lista-usuarios">Lista de usuários</a></li>
                 </ul>
+                <div style="align-items: flex-end;">
+					<span th:text="${#authentication.getPrincipal().getName()}"></span>
+					<img style="width: 32px; height: 32px; border-radius: 16px;" alt=""
+						th:src="${#authentication.getPrincipal().getAvatarUrl()}">
+					<!-- span sec:authentication="name"></span -->
+					<a href="/logout" title="sair"><img alt="" th:src="@{/images/logout-small.png}">
+					</a>
+				</div>
             </div>
         </div>
     </nav>
