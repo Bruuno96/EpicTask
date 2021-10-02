@@ -1,8 +1,7 @@
 package br.com.fiap.epictask.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -32,21 +31,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/lista-tasks/new")
+		.antMatchers("/lista-tasks/**")
 			.hasRole("ADMIN")
-		.antMatchers("lista-task")
+		.antMatchers("/lista-task", "/lista-usuarios")		
 			.authenticated()
 		.and()
-			.formLogin(form -> form
-					.loginPage("/login")
-					.usernameParameter("email")
-					.passwordParameter("password")
-					.defaultSuccessUrl("/lista-tasks")
-					)
+//			.formLogin(form -> form
+//					.loginPage("/login")
+//					.usernameParameter("email")
+//					.passwordParameter("password")
+//					.defaultSuccessUrl("/lista-tasks")
+//					)
+		.formLogin()
+		.loginPage("/login").and()
 
 			.logout()
-			.invalidateHttpSession(true)
-			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));	
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.logoutSuccessUrl("/login");	
 	}
 	
 	@Override
